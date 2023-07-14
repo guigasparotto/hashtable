@@ -46,11 +46,17 @@ class HashTable:
             else:
                 current.value = value
 
-    def remove(self, key):
+    def remove(self, key) -> bool:
         pos = self._hash(key) % len(self.table)
         bucket = self.table[pos]
-        return bucket.remove(key)
 
+        removed = False if bucket is None else bucket.remove(key)
+        if removed:
+            self.length -= 1
+
+        return removed
+
+    # TODO: Temporary method to assess the distribution throughout the table
     def print_distribution(self, graphic=False):
         maxl = 0
         minl = sys.maxsize

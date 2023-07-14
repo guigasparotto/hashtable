@@ -57,8 +57,8 @@ def test_get_key_returns_none_when_key_does_not_exist(populated_hashtable):
 # This test is to validate the case where the result is not the first
 # node in the bucket, so the function needs to iterate through it
 def test_get_key_returns_correct_value_with_mock(empty_hashtable):
-    return_node = Node("First Node", 111111)
-    return_node.next = Node("Target Node", 222222)
+    return_node = Node(test_key1, test_values[test_key1])
+    return_node.next = Node(test_key2, test_values[test_key2])
 
     mock_bucket = MagicMock()
     mock_bucket.first = return_node
@@ -66,8 +66,21 @@ def test_get_key_returns_correct_value_with_mock(empty_hashtable):
     # Patch self.table to return the mock_instance
     with patch.object(empty_hashtable, 'table',
                       new=[mock_bucket] * len(empty_hashtable.table)):
-        result = empty_hashtable["Target Node"]
-        assert result == 222222
+        result = empty_hashtable[test_key2]
+        assert result == test_values[test_key2]
+
+
+def test_remove_returns_true_and_correct_length(populated_hashtable):
+    r2 = populated_hashtable.remove(test_key2)
+    r1 = populated_hashtable.remove(test_key1)
+    assert r1 is True and r2 is True
+    assert len(populated_hashtable) == 8
+
+
+def test_remove_from_empty_hashtable_returns_false_and_correct_length(empty_hashtable):
+    result = empty_hashtable.remove(test_key1)
+    assert result is False
+    assert len(empty_hashtable) == 0
 
 
 def test_hash_function_is_case_insensitive():

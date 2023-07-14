@@ -13,7 +13,7 @@ long_key = "this key is not in the bucket"
 
 
 @pytest.fixture
-def empty_bucket():
+def empty_hashtable():
     return Bucket()
 
 
@@ -44,10 +44,10 @@ def test_remove_returns_true_and_correct_length(populated_bucket):
     assert len(populated_bucket) == 8
 
 
-def test_remove_from_empty_bucket_returns_false_and_correct_length(empty_bucket):
-    result = empty_bucket.remove(test_key1)
+def test_remove_from_empty_bucket_returns_false_and_correct_length(empty_hashtable):
+    result = empty_hashtable.remove(test_key1)
     assert result is False
-    assert len(empty_bucket) == 0
+    assert len(empty_hashtable) == 0
 
 
 def test_get_key_returns_correct_value(populated_bucket):
@@ -70,11 +70,11 @@ def test_get_node_returns_none_when_node_does_not_exist(populated_bucket):
     assert result_node is None
 
 
-def test_str_returns_formatted_text(empty_bucket):
+def test_str_returns_formatted_text(empty_hashtable):
     keys = ["key1", "key2"]
     values = [123456789, 123456790]
-    empty_bucket.append(keys[0], values[0])
-    empty_bucket.append(keys[1], values[1])
+    empty_hashtable.append(keys[0], values[0])
+    empty_hashtable.append(keys[1], values[1])
 
     expected_string = f"[{keys[0]}: {values[0]}], [{keys[1]}: {values[1]}]"
-    assert str(empty_bucket) == expected_string
+    assert str(empty_hashtable) == expected_string
